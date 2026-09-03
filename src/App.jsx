@@ -10,6 +10,7 @@ import ApplicationForm from "./pages/user/ApplicationForm";
 import PassportDetails from "./pages/user/PassportDetails";
 import AddressDetails from "./pages/user/AddressDetails";
 import SecurityDeclaration from "./pages/user/SecurityDeclaration";
+import Documents from "./pages/user/Documents";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -78,6 +79,15 @@ function App() {
           element={
             <ProtectedRoute>
               <SecurityDeclaration />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/applications/:id/documents"
+          element={
+            <ProtectedRoute>
+              <Documents />
             </ProtectedRoute>
           }
         />
