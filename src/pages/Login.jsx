@@ -1,5 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -14,6 +16,9 @@ function Login() {
     });
   };
 
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,14 +28,22 @@ function Login() {
         formData
       );
 
-      console.log(response.data);
+      // console.log(response.data);
 
-      alert("Login successful");
+      setUser(response.data.user);
+
+      if (response.data.user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+      
     } catch (error) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Login failed");
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">

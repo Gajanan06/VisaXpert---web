@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function Register() {
     });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,6 +30,7 @@ function Register() {
       console.log(response.data);
 
       alert("Registration successful");
+      navigate("/login");
     } catch (error) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Registration failed");
