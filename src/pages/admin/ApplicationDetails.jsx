@@ -2,12 +2,40 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 
+
 function ApplicationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [analyzing, setAnalyzing] = useState(false);
+
+  const handleAIAnalysis = async () => {
+  try {
+    setAnalyzing(true);
+
+    await api.post(
+      `/admin/applications/${id}/analyze`
+    );
+
+    await getApplication();
+
+    alert("AI analysis completed successfully.");
+  } catch (error) {
+    console.error(
+      "AI analysis failed:",
+      error
+    );
+
+    alert(
+      error.response?.data?.message ||
+        "AI analysis failed"
+    );
+  } finally {
+    setAnalyzing(false);
+  }
+};
 
   const getApplication = async () => {
     try {
@@ -317,33 +345,71 @@ function ApplicationDetails() {
         {/* AI section placeholder */}
         <Section title="AI Analysis">
 
-          <div className="bg-gray-50 rounded-lg p-5">
+  <div className="bg-gray-50 rounded-lg p-5">
 
-            {application.aiAnalysis?.riskScore !== null ? (
-              <div>
-                <p>
-                  Risk Score:{" "}
-                  {application.aiAnalysis.riskScore}
-                </p>
+    {application.aiAnalysis?.riskScore !== null ? (
+      <div>
 
-                <p>
-                  Risk Level:{" "}
-                  {application.aiAnalysis.riskLevel}
-                </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                <p className="mt-3">
-                  {application.aiAnalysis.summary}
-                </p>
-              </div>
-            ) : (
-              <p className="text-gray-500">
-                AI analysis has not been performed yet.
-              </p>
-            )}
+          <Detail
+            label="Risk Score"
+            value={`${application.aiAnalysis.riskScore}/100`}
+          />
 
-          </div>
+          <Detail
+            label="Risk Level"
+            value={application.aiAnalysis.riskLevel}
+          />
 
-        </Section>
+        </div>
+
+        <div className="mt-5">
+
+          <p className="text-sm text-gray-500">
+            AI Summary
+          </p>
+
+          <p className="mt-2 text-gray-800">
+            {application.aiAnalysis.summary}
+          </p>
+
+        </div>
+
+        <div className="mt-5 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+
+          <p className="text-sm text-yellow-800">
+            AI analysis is advisory only. The final
+            application decision must be made by the
+            administrator.
+          </p>
+
+        </div>
+
+      </div>
+    ) : (
+      <div>
+
+        <p className="text-gray-500 mb-4">
+          AI analysis has not been performed yet.
+        </p>
+
+        <button
+          onClick={handleAIAnalysis}
+          disabled={analyzing}
+          className="px-5 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50"
+        >
+          {analyzing
+            ? "Analyzing..."
+            : "Run AI Analysis"}
+        </button>
+
+      </div>
+    )}
+
+  </div>
+
+</Section>
 
       </main>
     </div>
