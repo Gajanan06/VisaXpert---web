@@ -14,6 +14,7 @@ import Documents from "./pages/user/Documents";
 import ReviewApplication from "./pages/user/ReviewApplication";
 
 import AdminApplications from "./pages/admin/Applications";
+import AdminApplicationDetails from "./pages/admin/ApplicationDetails";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -117,6 +118,15 @@ function App() {
           element={
             <AdminRoute>
               <AdminApplications />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/applications/:id"
+          element={
+            <AdminRoute>
+              <AdminApplicationDetails />
             </AdminRoute>
           }
         />
