@@ -11,6 +11,7 @@ import PassportDetails from "./pages/user/PassportDetails";
 import AddressDetails from "./pages/user/AddressDetails";
 import SecurityDeclaration from "./pages/user/SecurityDeclaration";
 import Documents from "./pages/user/Documents";
+import ReviewApplication from "./pages/user/ReviewApplication";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -88,6 +89,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Documents />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/applications/:id/review"
+          element={
+            <ProtectedRoute>
+              <ReviewApplication />
             </ProtectedRoute>
           }
         />
