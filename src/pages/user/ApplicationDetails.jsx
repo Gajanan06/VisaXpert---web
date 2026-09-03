@@ -85,6 +85,18 @@ function ApplicationDetails() {
               <p className="text-gray-500">
                 Add your personal information.
               </p>
+              {application.status === "Draft" && (
+                    <button
+                    onClick={() =>
+                        navigate(`/applications/${application._id}/personal`)
+                    }
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                    {application.personalDetails?.firstName
+                        ? "Edit"
+                        : "Start"}
+                    </button>
+                )}
             </div>
 
             <div className="border rounded-lg p-5">

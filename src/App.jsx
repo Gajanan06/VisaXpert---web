@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import UserDashboard from "./pages/user/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ApplicationDetails from "./pages/user/ApplicationDetails";
+import ApplicationForm from "./pages/user/ApplicationForm";
+
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -40,6 +42,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+          <Route
+            path="/applications/:id/personal"
+            element={
+              <ProtectedRoute>
+                <ApplicationForm />
+              </ProtectedRoute>
+            }
+          />
 
         <Route
           path="/admin/dashboard"
