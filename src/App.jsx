@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import ApplicationDetails from "./pages/user/ApplicationDetails";
 import ApplicationForm from "./pages/user/ApplicationForm";
 import PassportDetails from "./pages/user/PassportDetails";
+import AddressDetails from "./pages/user/AddressDetails";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -58,6 +59,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <PassportDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/applications/:id/address"
+            element={
+              <ProtectedRoute>
+                <AddressDetails />
               </ProtectedRoute>
             }
           />

@@ -117,6 +117,18 @@ function ApplicationDetails() {
               <p className="text-gray-500">
                 Add your current address.
               </p>
+               {application.status === "Draft" && (
+                    <button
+                    onClick={() =>
+                        navigate(`/applications/${application._id}/address`)
+                    }
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                    {application.addressDetails?.city
+                        ? "Edit"
+                        : "Start"}
+                    </button>
+                )}
             </div>
 
             <div className="border rounded-lg p-5">
