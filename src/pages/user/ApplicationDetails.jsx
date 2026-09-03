@@ -139,6 +139,21 @@ function ApplicationDetails() {
               <p className="text-gray-500">
                 Answer the security questions.
               </p>
+              {application.status === "Draft" && (
+                    <button
+                    onClick={() =>
+                        navigate(`/applications/${application._id}/security`)
+                    }
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                    {application.securityDeclaration?.additionalInformation ||
+                    application.securityDeclaration?.criminalRecord ||
+                    application.securityDeclaration?.visaRejection ||
+                    application.securityDeclaration?.immigrationViolation
+                        ? "Edit"
+                        : "Start"}
+                    </button>
+                )}
             </div>
 
             <div className="border rounded-lg p-5">
