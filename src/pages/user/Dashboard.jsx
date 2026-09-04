@@ -42,6 +42,29 @@ function Dashboard() {
     navigate("/login");
   };
 
+
+  const getStatusStyle = (status) => {
+  switch (status) {
+    case "Approved":
+      return "bg-green-100 text-green-700";
+
+    case "Rejected":
+      return "bg-red-100 text-red-700";
+
+    case "Requires Attention":
+      return "bg-yellow-100 text-yellow-700";
+
+    case "In Review":
+      return "bg-purple-100 text-purple-700";
+
+    case "Submitted":
+      return "bg-blue-100 text-blue-700";
+
+    default:
+      return "bg-gray-100 text-gray-700";
+  }
+};
+
   return (
     <div className="min-h-screen bg-gray-100">
       
@@ -115,66 +138,133 @@ function Dashboard() {
           <div className="grid gap-4">
 
             {applications.map((application) => (
-              <div
+            <div
                 key={application._id}
-                className="bg-white rounded-xl p-6 shadow-sm flex justify-between items-center"
-              >
+                className="bg-white rounded-xl p-6 shadow-sm"
+            >
+                {/* Application Header */}
+                <div className="flex justify-between items-center">
+
                 <div>
-                  <h3 className="font-semibold text-lg">
+                    <h3 className="font-semibold text-lg">
                     Visa Application
-                  </h3>
+                    </h3>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-gray-500 mt-1">
                     Application ID: {application._id}
-                  </p>
+                    </p>
 
-                  <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500">
                     Created:{" "}
                     {new Date(application.createdAt).toLocaleDateString()}
-                  </p>
+                    </p>
                 </div>
 
                 <div className="flex items-center gap-4">
 
-                  <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm">
+                    <span
+                    className={`px-3 py-1 rounded-full ${getStatusStyle(
+                        application.status
+                    )}`}
+                    >
                     {application.status}
-                  </span>
+                    </span>
 
-                  <button
+                    <button
                     onClick={() =>
-                      navigate(`/applications/${application._id}`)
+                        navigate(`/applications/${application._id}`)
                     }
                     className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
+                    >
                     View
-                  </button>
+                    </button>
 
-                  {application.status === "Draft" && (
+                    {application.status === "Draft" && (
                     <button
-                      onClick={async () => {
+                        onClick={async () => {
                         try {
-                          await api.delete(
+                            await api.delete(
                             `/applications/${application._id}`
-                          );
+                            );
 
-                          getApplications();
+                            getApplications();
                         } catch (error) {
-                          console.error(
+                            console.error(
                             "Failed to delete application:",
                             error
-                          );
+                            );
                         }
-                      }}
-                      className="px-4 py-2 text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
+                        }}
+                        className="px-4 py-2 text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
                     >
-                      Delete
+                        Delete
                     </button>
-                  )}
+                    )}
 
                 </div>
-              </div>
-            ))}
 
+                </div>
+
+                {/* Admin Notes */}
+                {application.adminReview?.notes && (
+                <div className="mt-4 p-4 rounded-lg bg-gray-50">
+                    <p className="text-sm text-gray-500">
+                    Admin Notes
+                    </p>
+
+                    <p className="mt-1">
+                    {application.adminReview.notes}
+                    </p>
+                </div>
+                )}
+
+                {/* Approved */}
+                {application.status === "Approved" && (
+                <div className="mt-4 p-4 rounded-lg bg-green-50 border border-green-200">
+                    <h3 className="font-semibold text-green-800">
+                    Application Approved
+                    </h3>
+
+                    <p className="text-green-700 mt-1">
+                    Your visa application has been approved.
+                    </p>
+                </div>
+                )}
+
+                {/* Rejected */}
+                {application.status === "Rejected" && (
+                <div className="mt-4 p-4 rounded-lg bg-red-50 border border-red-200">
+                    <h3 className="font-semibold text-red-800">
+                    Application Rejected
+                    </h3>
+
+                    <p className="text-red-700 mt-1">
+                    Your visa application has been rejected.
+                    </p>
+                </div>
+                )}
+
+                {/* Requires Attention */}
+                {application.status === "Requires Attention" && (
+                <div className="mt-4 p-4 rounded-lg bg-yellow-50 border border-yellow-200">
+                    <h3 className="font-semibold text-yellow-800">
+                    Action Required
+                    </h3>
+
+                    <p className="text-yellow-700 mt-1">
+                    Please review the admin notes and provide the required information.
+                    </p>
+
+                    {application.adminReview?.notes && (
+                    <p className="mt-2 text-yellow-800 font-medium">
+                        {application.adminReview.notes}
+                    </p>
+                    )}
+                </div>
+                )}
+
+            </div>
+            ))}
           </div>
         )}
 

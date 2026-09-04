@@ -11,6 +11,33 @@ function ApplicationDetails() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
 
+  const [notes, setNotes] = useState("");
+const [updatingStatus, setUpdatingStatus] = useState(false);
+
+ const handleStatusUpdate = async (status) => {
+  try {
+    setUpdatingStatus(true);
+
+    await api.patch(`/admin/applications/${id}/status`, {
+      status,
+      notes,
+    });
+
+    await getApplication();
+
+    alert(`Application ${status.toLowerCase()} successfully`);
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+        "Failed to update application status"
+    );
+  } finally {
+    setUpdatingStatus(false);
+  }
+};
+
   const handleAIAnalysis = async () => {
   try {
     setAnalyzing(true);
@@ -410,6 +437,81 @@ function ApplicationDetails() {
   </div>
 
 </Section>
+
+        <div className="mt-6 rounded-lg border bg-white p-6">
+  <h2 className="mb-4 text-xl font-semibold">
+    Admin Decision
+  </h2>
+
+  <div className="mb-4">
+    <label className="mb-2 block font-medium">
+      Admin Notes
+    </label>
+
+    <textarea
+      value={notes}
+      onChange={(e) => setNotes(e.target.value)}
+      placeholder="Enter review notes..."
+      rows="4"
+      className="w-full rounded-lg border p-3 outline-none focus:ring-2"
+    />
+  </div>
+
+  <div className="flex gap-3">
+    <button
+      onClick={() => handleStatusUpdate("Approved")}
+      disabled={updatingStatus}
+      className="rounded-lg px-4 py-2 text-white bg-green-600 disabled:opacity-50"
+    >
+      Approve
+    </button>
+
+    <button
+      onClick={() => handleStatusUpdate("Rejected")}
+      disabled={updatingStatus}
+      className="rounded-lg px-4 py-2 text-white bg-red-600 disabled:opacity-50"
+    >
+      Reject
+    </button>
+
+    <button
+      onClick={() =>
+        handleStatusUpdate("Requires Attention")
+      }
+      disabled={updatingStatus}
+      className="rounded-lg px-4 py-2 text-white bg-yellow-600 disabled:opacity-50"
+    >
+      Requires Attention
+    </button>
+  </div>
+</div>
+
+ {application.adminReview && (
+          <div className="mt-6 rounded-lg border bg-gray-50 p-6">
+            <h2 className="mb-3 text-xl font-semibold">
+              Previous Admin Review
+            </h2>
+
+            <p>
+              <strong>Status:</strong>{" "}
+              {application.adminReview.status}
+            </p>
+
+            <p className="mt-2">
+              <strong>Notes:</strong>{" "}
+              {application.adminReview.notes || "No notes"}
+            </p>
+
+            {application.adminReview.reviewedAt && (
+              <p className="mt-2">
+                <strong>Reviewed At:</strong>{" "}
+                {new Date(
+                  application.adminReview.reviewedAt
+                ).toLocaleString()}
+              </p>
+            )}
+          </div>
+        )}
 
       </main>
     </div>

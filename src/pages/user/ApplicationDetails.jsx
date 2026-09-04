@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 
+function Section({ title, children }) {
+  return (
+    <div className="mt-8 pt-6 border-t">
+      {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}
+      {children}
+    </div>
+  );
+}
+
 function ApplicationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -41,6 +50,28 @@ function ApplicationDetails() {
     );
   }
 
+  const getStatusStyle = (status) => {
+  switch (status) {
+    case "Approved":
+      return "bg-green-100 text-green-700";
+
+    case "Rejected":
+      return "bg-red-100 text-red-700";
+
+    case "Requires Attention":
+      return "bg-yellow-100 text-yellow-700";
+
+    case "In Review":
+      return "bg-purple-100 text-purple-700";
+
+    case "Submitted":
+      return "bg-blue-100 text-blue-700";
+
+    default:
+      return "bg-gray-100 text-gray-700";
+  }
+};
+
   return (
     <div className="min-h-screen bg-gray-100">
 
@@ -70,8 +101,12 @@ function ApplicationDetails() {
               </p>
             </div>
 
-            <span className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full">
-              {application.status}
+            <span
+            className={`px-4 py-2 rounded-full ${getStatusStyle(
+                application.status
+            )}`}
+            >
+            {application.status}
             </span>
           </div>
 
@@ -177,6 +212,71 @@ function ApplicationDetails() {
             </div>
 
           </div>
+          <Section title="Application Status">
+
+  <div>
+    <p className="text-sm text-gray-500">
+      Current Status
+    </p>
+
+    <p className="text-xl font-semibold mt-1">
+      {application.status}
+    </p>
+  </div>
+
+  {/* Approved */}
+  {application.status === "Approved" && (
+    <div className="mt-5 p-4 bg-green-50 border border-green-200 rounded-lg">
+      <h3 className="font-semibold text-green-800">
+        Application Approved
+      </h3>
+
+      <p className="text-green-700 mt-1">
+        Your visa application has been approved.
+      </p>
+    </div>
+  )}
+
+  {/* Rejected */}
+  {application.status === "Rejected" && (
+    <div className="mt-5 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <h3 className="font-semibold text-red-800">
+        Application Rejected
+      </h3>
+
+      <p className="text-red-700 mt-1">
+        Your visa application has been rejected.
+      </p>
+    </div>
+  )}
+
+  {/* Requires Attention */}
+  {application.status === "Requires Attention" && (
+    <div className="mt-5 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+      <h3 className="font-semibold text-yellow-800">
+        Action Required
+      </h3>
+
+      <p className="text-yellow-700 mt-1">
+        Please review the admin notes and provide the required information.
+      </p>
+    </div>
+  )}
+
+  {/* Admin Notes */}
+  {application.adminReview?.notes && (
+    <div className="mt-5 p-4 bg-gray-50 rounded-lg">
+      <p className="text-sm text-gray-500">
+        Admin Notes
+      </p>
+
+      <p className="mt-2">
+        {application.adminReview.notes}
+      </p>
+    </div>
+  )}
+
+</Section>
 
         </div>
 
