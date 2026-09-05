@@ -57,73 +57,177 @@ function ReviewApplication() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading application...
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <div className="text-center">
+
+          <div className="w-10 h-10 mx-auto mb-4 rounded-full border-2 border-slate-700 border-t-blue-500 animate-spin"></div>
+
+          <p className="text-slate-400">
+            Loading application...
+          </p>
+
+        </div>
       </div>
     );
   }
 
   if (!application) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Application not found.
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
+
+        <div className="text-center">
+
+          <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+            <span className="text-2xl text-red-400">
+              !
+            </span>
+          </div>
+
+          <h2 className="text-xl font-semibold">
+            Application not found
+          </h2>
+
+          <p className="text-slate-500 mt-2">
+            We couldn't find the requested visa application.
+          </p>
+
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="mt-6 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 font-medium transition"
+          >
+            Back to Dashboard
+          </button>
+
+        </div>
+
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-slate-950 text-white">
 
       {/* Navbar */}
-      <nav className="bg-white border-b">
-        <div className="max-w-5xl mx-auto px-6 py-4">
+      <nav className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-blue-600"
+            className="flex items-center gap-3"
+          >
+
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <span className="font-bold">
+                VX
+              </span>
+            </div>
+
+            <div className="hidden sm:block text-left">
+              <h1 className="font-bold">
+                VisaXpert
+              </h1>
+
+              <p className="text-xs text-slate-500">
+                Visa Application
+              </p>
+            </div>
+
+          </button>
+
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="text-sm text-slate-400 hover:text-white transition"
           >
             ← Back to Dashboard
           </button>
+
         </div>
+
       </nav>
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      {/* Main */}
+      <main className="max-w-5xl mx-auto px-6 py-10">
 
-        {/* Heading */}
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">
-            Review Application
+
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+
+            <span className="text-sm font-medium text-emerald-400">
+              Final Step
+            </span>
+          </div>
+
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Review Your Application
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            Step 6 of 6 — Review & Submit
+          <p className="text-slate-400 mt-2">
+            Review all the information below before submitting your visa application.
           </p>
+
         </div>
 
         {/* Progress */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-8">
-          <div
-            className="bg-blue-600 h-2 rounded-full"
-            style={{ width: "100%" }}
-          />
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 mb-6">
+
+          <div className="flex items-center justify-between mb-4">
+
+            <div>
+              <p className="text-sm font-semibold text-slate-200">
+                Application Progress
+              </p>
+
+              <p className="text-xs text-slate-500 mt-1">
+                Step 6 of 6 — Ready for submission
+              </p>
+            </div>
+
+            <span className="text-sm font-medium text-emerald-400">
+              100%
+            </span>
+
+          </div>
+
+          <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500"
+              style={{ width: "100%" }}
+            />
+
+          </div>
+
+          {/* Steps */}
+          <div className="hidden md:grid grid-cols-6 gap-2 mt-5">
+
+            <Step label="Personal" completed />
+
+            <Step label="Passport" completed />
+
+            <Step label="Address" completed />
+
+            <Step label="Security" completed />
+
+            <Step label="Documents" completed />
+
+            <Step label="Review" active />
+
+          </div>
+
         </div>
 
         {/* Personal Details */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold">
-              1. Personal Details
-            </h2>
-
-            <button
-              onClick={() =>
-                navigate(`/applications/${id}/personal`)
-              }
-              className="text-blue-600"
-            >
-              Edit
-            </button>
-          </div>
+        <ReviewSection
+          number="01"
+          title="Personal Details"
+          description="Your personal information"
+          onEdit={() =>
+            navigate(`/applications/${id}/personal`)
+          }
+        >
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -158,25 +262,18 @@ function ReviewApplication() {
             />
 
           </div>
-        </div>
+
+        </ReviewSection>
 
         {/* Passport Details */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold">
-              2. Passport Details
-            </h2>
-
-            <button
-              onClick={() =>
-                navigate(`/applications/${id}/passport`)
-              }
-              className="text-blue-600"
-            >
-              Edit
-            </button>
-          </div>
+        <ReviewSection
+          number="02"
+          title="Passport Details"
+          description="Your passport information"
+          onEdit={() =>
+            navigate(`/applications/${id}/passport`)
+          }
+        >
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -209,25 +306,18 @@ function ReviewApplication() {
             />
 
           </div>
-        </div>
+
+        </ReviewSection>
 
         {/* Address */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold">
-              3. Address Details
-            </h2>
-
-            <button
-              onClick={() =>
-                navigate(`/applications/${id}/address`)
-              }
-              className="text-blue-600"
-            >
-              Edit
-            </button>
-          </div>
+        <ReviewSection
+          number="03"
+          title="Address Details"
+          description="Your residential address"
+          onEdit={() =>
+            navigate(`/applications/${id}/address`)
+          }
+        >
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -236,6 +326,7 @@ function ReviewApplication() {
               value={
                 application.addressDetails?.addressLine
               }
+              full
             />
 
             <Detail
@@ -261,55 +352,42 @@ function ReviewApplication() {
             />
 
           </div>
-        </div>
+
+        </ReviewSection>
 
         {/* Security */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold">
-              4. Security Declaration
-            </h2>
-
-            <button
-              onClick={() =>
-                navigate(`/applications/${id}/security`)
-              }
-              className="text-blue-600"
-            >
-              Edit
-            </button>
-          </div>
+        <ReviewSection
+          number="04"
+          title="Security Declaration"
+          description="Your security declarations"
+          onEdit={() =>
+            navigate(`/applications/${id}/security`)
+          }
+        >
 
           <div className="space-y-3">
 
-            <Detail
+            <Declaration
               label="Criminal Record"
               value={
                 application.securityDeclaration
                   ?.criminalRecord
-                  ? "Yes"
-                  : "No"
               }
             />
 
-            <Detail
+            <Declaration
               label="Previous Visa Rejection"
               value={
                 application.securityDeclaration
                   ?.visaRejection
-                  ? "Yes"
-                  : "No"
               }
             />
 
-            <Detail
+            <Declaration
               label="Immigration Violation"
               value={
                 application.securityDeclaration
                   ?.immigrationViolation
-                  ? "Yes"
-                  : "No"
               }
             />
 
@@ -319,28 +397,22 @@ function ReviewApplication() {
                 application.securityDeclaration
                   ?.additionalInformation || "None"
               }
+              full
             />
 
           </div>
-        </div>
+
+        </ReviewSection>
 
         {/* Documents */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold">
-              5. Documents
-            </h2>
-
-            <button
-              onClick={() =>
-                navigate(`/applications/${id}/documents`)
-              }
-              className="text-blue-600"
-            >
-              Edit
-            </button>
-          </div>
+        <ReviewSection
+          number="05"
+          title="Documents"
+          description="Uploaded supporting documents"
+          onEdit={() =>
+            navigate(`/applications/${id}/documents`)
+          }
+        >
 
           <div className="space-y-3">
 
@@ -349,6 +421,7 @@ function ReviewApplication() {
               uploaded={
                 application.documents?.passport
               }
+              required
             />
 
             <DocumentStatus
@@ -356,6 +429,7 @@ function ReviewApplication() {
               uploaded={
                 application.documents?.photo
               }
+              required
             />
 
             <DocumentStatus
@@ -366,25 +440,60 @@ function ReviewApplication() {
             />
 
           </div>
-        </div>
 
-        {/* Submit */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        </ReviewSection>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <p className="text-yellow-800">
-              Please make sure all information is correct
-              before submitting your application.
-            </p>
+        {/* Submit Section */}
+        <div className="mt-6 rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-slate-900/70 to-indigo-500/10 p-6 md:p-8">
+
+          <div className="flex items-start gap-4">
+
+            <div className="w-12 h-12 shrink-0 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+              <span className="text-blue-400 text-xl">
+                ✓
+              </span>
+            </div>
+
+            <div>
+
+              <h2 className="text-xl font-semibold">
+                Ready to Submit?
+              </h2>
+
+              <p className="text-sm text-slate-400 mt-1 leading-6">
+                Please make sure all information is accurate and
+                all required documents have been uploaded.
+              </p>
+
+            </div>
+
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="mt-6 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+
+            <div className="flex items-start gap-3">
+
+              <span className="text-amber-400">
+                !
+              </span>
+
+              <p className="text-sm text-amber-300/80 leading-6">
+                Once submitted, your application will be sent for
+                review. Make sure everything is correct before
+                continuing.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
 
             <button
               onClick={() =>
                 navigate(`/applications/${id}/documents`)
               }
-              className="px-5 py-3 border rounded-lg hover:bg-gray-50"
+              className="px-5 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white transition font-medium"
             >
               ← Previous
             </button>
@@ -392,54 +501,214 @@ function ReviewApplication() {
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="px-7 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-lg shadow-emerald-600/20 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting
-                ? "Submitting..."
-                : "Submit Application"}
+              {submitting ? (
+                <span className="flex items-center justify-center gap-2">
+
+                  <span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+
+                  Submitting...
+
+                </span>
+              ) : (
+                "Submit Application →"
+              )}
             </button>
 
           </div>
 
         </div>
 
+        {/* Security Footer */}
+        <div className="flex items-center justify-center gap-2 mt-6 text-xs text-slate-600">
+          <span>🔒</span>
+          Your application information is securely handled.
+        </div>
+
       </main>
+
     </div>
   );
 }
 
-/* Small reusable component */
+/* Review Section */
 
-function Detail({ label, value }) {
+function ReviewSection({
+  number,
+  title,
+  description,
+  onEdit,
+  children,
+}) {
   return (
-    <div>
-      <p className="text-sm text-gray-500">
+    <div className="rounded-2xl border border-slate-800 bg-slate-900/70 overflow-hidden mb-5">
+
+      <div className="px-6 md:px-8 py-5 border-b border-slate-800 flex items-center justify-between gap-4">
+
+        <div className="flex items-center gap-4">
+
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+            <span className="text-blue-400 text-sm font-medium">
+              {number}
+            </span>
+          </div>
+
+          <div>
+
+            <h2 className="font-semibold text-lg">
+              {title}
+            </h2>
+
+            <p className="text-xs text-slate-500 mt-1">
+              {description}
+            </p>
+
+          </div>
+
+        </div>
+
+        <button
+          onClick={onEdit}
+          className="px-3 py-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition text-sm"
+        >
+          Edit
+        </button>
+
+      </div>
+
+      <div className="p-6 md:p-8">
+        {children}
+      </div>
+
+    </div>
+  );
+}
+
+/* Detail */
+
+function Detail({ label, value, full }) {
+  return (
+    <div
+      className={`rounded-xl border border-slate-800 bg-slate-950/40 p-4 ${
+        full ? "md:col-span-2" : ""
+      }`}
+    >
+
+      <p className="text-xs text-slate-500 uppercase tracking-wide">
         {label}
       </p>
 
-      <p className="font-medium text-gray-900 mt-1">
+      <p className="text-sm font-medium text-slate-200 mt-2 break-words">
         {value || "Not provided"}
       </p>
+
     </div>
   );
 }
 
-function DocumentStatus({ label, uploaded }) {
-  return (
-    <div className="flex justify-between items-center border rounded-lg p-4">
+/* Security Declaration */
 
-      <span className="font-medium">
+function Declaration({ label, value }) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-slate-800 bg-slate-950/40 p-4">
+
+      <span className="text-sm text-slate-300">
         {label}
       </span>
 
       <span
-        className={
+        className={`px-3 py-1 rounded-full text-xs font-medium border ${
+          value
+            ? "bg-red-500/10 text-red-400 border-red-500/20"
+            : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+        }`}
+      >
+        {value ? "Yes" : "No"}
+      </span>
+
+    </div>
+  );
+}
+
+/* Document Status */
+
+function DocumentStatus({
+  label,
+  uploaded,
+  required,
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-slate-800 bg-slate-950/40 p-4">
+
+      <div className="flex items-center gap-3">
+
+        <div
+          className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+            uploaded
+              ? "bg-emerald-500/10 text-emerald-400"
+              : "bg-red-500/10 text-red-400"
+          }`}
+        >
+          {uploaded ? "✓" : "!"}
+        </div>
+
+        <div>
+
+          <p className="text-sm font-medium text-slate-200">
+            {label}
+          </p>
+
+          {required && (
+            <p className="text-xs text-slate-600 mt-0.5">
+              Required
+            </p>
+          )}
+
+        </div>
+
+      </div>
+
+      <span
+        className={`text-xs font-medium ${
           uploaded
-            ? "text-green-600"
-            : "text-red-600"
-        }
+            ? "text-emerald-400"
+            : "text-red-400"
+        }`}
       >
         {uploaded ? "Uploaded" : "Not uploaded"}
+      </span>
+
+    </div>
+  );
+}
+
+/* Progress Step */
+
+function Step({ label, active, completed }) {
+  return (
+    <div className="flex items-center gap-2">
+
+      <div
+        className={`w-2 h-2 rounded-full ${
+          completed
+            ? "bg-emerald-400"
+            : active
+            ? "bg-blue-500"
+            : "bg-slate-700"
+        }`}
+      />
+
+      <span
+        className={`text-xs ${
+          completed
+            ? "text-emerald-400"
+            : active
+            ? "text-blue-400 font-medium"
+            : "text-slate-600"
+        }`}
+      >
+        {label}
       </span>
 
     </div>

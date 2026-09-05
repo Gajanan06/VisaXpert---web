@@ -36,32 +36,56 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading dashboard...
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-slate-700 border-t-indigo-500"></div>
+
+          <p className="text-sm text-slate-400">
+            Loading dashboard...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-slate-950 text-white">
 
       {/* Navbar */}
-      <nav className="bg-white border-b">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <nav className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
 
-          <h1 className="text-xl font-bold text-blue-600">
-            VisaXpert Admin
-          </h1>
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-indigo-600/20">
+              <span className="font-bold text-white">
+                VX
+              </span>
+            </div>
+
+            <div>
+              <h1 className="text-lg font-bold">
+                VisaXpert
+              </h1>
+            </div>
+
+          </div>
+
+          {/* User */}
           <div className="flex items-center gap-4">
 
-            <span className="text-gray-700">
-              {user?.name}
-            </span>
+            <div className="hidden sm:block text-right">
+              <p className="text-sm font-medium text-slate-200">
+                {user?.name}
+              </p>
+            </div>
+
 
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+              className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white"
             >
               Logout
             </button>
@@ -69,81 +93,142 @@ function Dashboard() {
           </div>
 
         </div>
+
       </nav>
 
       {/* Main */}
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-6 py-10">
 
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold">
-            Admin Dashboard
+        {/* Header */}
+        <div className="mb-10">
+
+          <p className="mb-2 text-sm font-medium text-indigo-400">
+            ADMINISTRATION
+          </p>
+
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Dashboard
           </h2>
 
-          <p className="text-gray-500 mt-1">
-            Manage and review visa applications.
+          <p className="mt-2 max-w-2xl text-slate-400">
+            Monitor visa applications, review applicants,
+            and manage verification decisions.
           </p>
+
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+        <div className="mb-10">
 
-          <StatCard
-            title="Total Applications"
-            value={statistics.totalApplications}
-          />
+          <div className="mb-5">
+            <h3 className="text-lg font-semibold">
+              Application Overview
+            </h3>
 
-          <StatCard
-            title="Submitted"
-            value={statistics.submittedApplications}
-          />
+            <p className="mt-1 text-sm text-slate-500">
+              Current application and user statistics
+            </p>
+          </div>
 
-          <StatCard
-            title="Pending Review"
-            value={statistics.pendingApplications}
-          />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
-          <StatCard
-            title="Approved"
-            value={statistics.approvedApplications}
-          />
+            <StatCard
+              title="Total Applications"
+              value={statistics.totalApplications}
+              icon="📋"
+            />
 
-          <StatCard
-            title="Rejected"
-            value={statistics.rejectedApplications}
-          />
+            <StatCard
+              title="Submitted"
+              value={statistics.submittedApplications}
+              icon="📨"
+            />
 
-          <StatCard
-            title="Total Users"
-            value={statistics.totalUsers}
-          />
+            <StatCard
+              title="Pending Review"
+              value={statistics.pendingApplications}
+              icon="🔍"
+            />
+
+            <StatCard
+              title="Approved"
+              value={statistics.approvedApplications}
+              icon="✓"
+            />
+
+            <StatCard
+              title="Rejected"
+              value={statistics.rejectedApplications}
+              icon="!"
+            />
+
+            <StatCard
+              title="Total Users"
+              value={statistics.totalUsers}
+              icon="👥"
+            />
+
+          </div>
 
         </div>
 
-        {/* Applications */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        {/* Application Management */}
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow-xl">
 
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
 
-            <div>
-              <h3 className="text-xl font-semibold">
-                Applications
-              </h3>
+            <div className="flex items-start gap-4">
 
-              <p className="text-gray-500 mt-1">
-                View and review submitted applications.
-              </p>
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+                <span className="text-xl">
+                  📑
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">
+                  Application Management
+                </h3>
+
+                <p className="mt-1 max-w-xl text-sm leading-6 text-slate-400">
+                  View submitted visa applications, inspect
+                  applicant information, review documents,
+                  and perform AI-assisted verification.
+                </p>
+              </div>
+
             </div>
 
             <button
               onClick={() =>
                 navigate("/admin/applications")
               }
-              className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all duration-200 hover:from-blue-500 hover:to-indigo-500 hover:shadow-indigo-600/30"
             >
-              View Applications
+              View Applications →
             </button>
 
           </div>
+
+        </div>
+
+        {/* Quick Information */}
+        <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
+
+          <InfoCard
+            title="Review Applications"
+            description="Inspect submitted applicant information and documents."
+          />
+
+          <InfoCard
+            title="AI Verification"
+            description="Run AI-assisted checks and review the generated risk assessment."
+          />
+
+          <InfoCard
+            title="Make Decisions"
+            description="Approve, reject, or request additional information from applicants."
+          />
 
         </div>
 
@@ -153,16 +238,42 @@ function Dashboard() {
   );
 }
 
-function StatCard({ title, value }) {
+function StatCard({ title, value, icon }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
+    <div className="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg transition-all duration-200 hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-900">
 
-      <p className="text-gray-500 text-sm">
+      <div className="flex items-start justify-between">
+
+        <div>
+          <p className="text-sm font-medium text-slate-400">
+            {title}
+          </p>
+
+          <p className="mt-3 text-3xl font-bold tracking-tight text-white">
+            {value}
+          </p>
+        </div>
+
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 border border-slate-700 text-lg">
+          {icon}
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+function InfoCard({ title, description }) {
+  return (
+    <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
+
+      <h4 className="font-semibold text-slate-200">
         {title}
-      </p>
+      </h4>
 
-      <p className="text-3xl font-bold mt-2">
-        {value}
+      <p className="mt-2 text-sm leading-6 text-slate-500">
+        {description}
       </p>
 
     </div>
